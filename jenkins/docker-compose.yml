@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+    jenkins:
+        image: jenkins/jenkins:lts
+        container_name: jenkins-server
+        privileged: true
+        user: root
+        ports:
+            - '8080:8080'
+            - '50000:50000'
+        volumes:
+            - jenkins_home:/var/jenkins_home
+            - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+            - jenkins-network
+        restart: unless-stopped
+        entrypoint: /bin/bash -c "
+            apt-get update &&
+            apt-get install -y python3 python3-pip python3-venv docker.io curl &&
+            usermod -aG docker jenkins &&
+            chmod 666 /var/run/docker.sock &&
+            /usr/local/bin/jenkins.sh
+            "
+
+volumes:
+    jenkins_home:
+        driver: local
+
+networks:
+    jenkins-network:
+        driver: bridge
