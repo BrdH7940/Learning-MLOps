@@ -25,7 +25,7 @@ class TestModelTraining:
 
     def test_model_accuracy_threshold(self):
         accuracy = train_and_save_model()
-        assert accuracy >= 0.90, f"Model accuracy {accuracy:.2} is below 90% threshold"
+        assert accuracy >= 0.90, f"Model accuracy {accuracy:.2f} is below 90% threshold"
 
     def test_model_file_created(self):
         train_and_save_model()
